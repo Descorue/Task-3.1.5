@@ -1,8 +1,8 @@
 package com.example.security_example.controller;
 
 
-import com.example.security_example.UserService.RoleService;
-import com.example.security_example.UserService.UserService;
+import com.example.security_example.service.RoleService;
+import com.example.security_example.service.UserService;
 import com.example.security_example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.example.security_example.UserService;
+package com.example.security_example.service;
 
 import com.example.security_example.model.Role;
 
