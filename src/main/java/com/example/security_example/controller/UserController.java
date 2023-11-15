@@ -27,7 +27,7 @@ public class UserController {
         User user = userRepository.findUserByUsername(principal.getName());
         modelMap.addAttribute("user", user);
 
-        return "user";
+        return "user_panel";
 
     }
 }
