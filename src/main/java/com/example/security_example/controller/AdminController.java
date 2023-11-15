@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -20,7 +21,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public String printUsers(ModelMap modelMap) {
         modelMap.addAttribute("usersList", userService.findAll());
 
@@ -38,7 +39,7 @@ public class AdminController {
     public String addUser(@ModelAttribute(value = "user") User user) {
         userService.save(user);
 
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/edit")
@@ -53,14 +54,14 @@ public class AdminController {
     public String update(@ModelAttribute(value = "user") User user) {
         userService.update(user);
 
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @PostMapping("users")
     public String delete(@RequestParam(value = "id", required = false) Long id) {
         userService.deleteById(id);
 
-        return "redirect:/users";
+        return "redirect:/admin";
 
     }
 }
