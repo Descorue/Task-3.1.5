@@ -6,6 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -18,14 +22,18 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username")
+    @NotNull(message = "Your username can not be empty!")
+    @Size(min = 2, max = 30, message = "Your username should be between 2 and 30 letters.")
     private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
+    @Email
+    @NotEmpty(message = "Email should not be empty!")
     private String email;
 
     @ManyToMany
-    @JoinTable(name = "users_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;

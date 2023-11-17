@@ -5,13 +5,12 @@ import com.example.security_example.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Controller
-@RequestMapping("/user")
+@RestController
+@RequestMapping("/userApi")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -22,12 +21,10 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "")
-    public String showUserInfo(ModelMap modelMap, Principal principal) {
-        User user = userRepository.findUserByUsername(principal.getName());
-        modelMap.addAttribute("user", user);
-
-        return "user_panel";
+    @GetMapping("/{id}")
+    public User showUserInfo(@RequestBody User user, @PathVariable("id") Long id) {
+        userRepository.getById(id);
+        return user;
 
     }
 }
