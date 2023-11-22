@@ -1,7 +1,5 @@
 package com.example.security_example.controller;
 
-
-import com.example.security_example.exceptionHandler.UserNotCreatedException;
 import com.example.security_example.service.RoleService;
 import com.example.security_example.service.UserService;
 import com.example.security_example.model.User;
@@ -9,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,45 +23,33 @@ public class AdminController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
-    //getting all users
     @GetMapping("/users")
-    public List<User> printUsers() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> printUsers() {
+        List<User> userList = userService.findAll();
+        return ResponseEntity.ok(userList);
     }
 
-    //getting ine user by id
-    @GetMapping("users/{id}")
-    public User getUser(@PathVariable(value = "id") Long id) {
-        return userService.getById(id);
+
+    @GetMapping("user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable(value = "id") Long id) {
+        User user = userService.getById(id);
+        return ResponseEntity.ok(user);
     }
 
-    //creating new user and responding with ResponseEntity
-    @PostMapping("/add")
-    public ResponseEntity<HttpStatus> create(@Valid @RequestBody User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            StringBuilder stringBuilder = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
-
-            for (FieldError error : errors) {
-                stringBuilder.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new UserNotCreatedException(stringBuilder.toString());
-        }
+    @PostMapping("/user")
+    public ResponseEntity<HttpStatus> create(@RequestBody User user) {
         userService.save(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
-    @PatchMapping("/edit/{id}")
+    @PatchMapping("/user/{id}")
     public ResponseEntity<HttpStatus> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         userService.update(id, user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
         return ResponseEntity.ok(HttpStatus.OK);

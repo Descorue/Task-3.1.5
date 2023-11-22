@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -62,12 +62,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = findUserByUsername(s);
         if (user == null) {

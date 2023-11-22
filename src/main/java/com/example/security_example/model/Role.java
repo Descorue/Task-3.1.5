@@ -1,24 +1,25 @@
 package com.example.security_example.model;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "role")
+    private String role;
 
-    public Role(String name) {
-        this.name = name;
+    public Role(String role) {
+        this.role = role;
     }
+
 
     public Role() {
     }
@@ -31,16 +32,16 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String role) {
+        this.role = role;
     }
 
     @Override
-    public String toString() {
-        return getName().substring(getName().indexOf('_') + 1);
+    public String getAuthority() {
+        return role;
     }
 }
